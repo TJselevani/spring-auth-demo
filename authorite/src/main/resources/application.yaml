@@ -1,0 +1,35 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: authorite
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/authorite_db
+    username: postgres
+    password: developer
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # options: create, create-drop, update, validate, none
+    show-sql: true       # logs SQL queries in console
+    properties:
+      hibernate:
+        format_sql: true
+
+  logging:
+    level:
+      org.hibernate.SQL: WARN
+
+
+  # create → Drops and recreates tables every run (dangerous, wipes data).
+
+  # create-drop → Same as create, but drops tables when app stops.
+
+  # update → Safest for dev; creates missing tables/columns without dropping existing data.
+
+  # validate → Only checks schema, doesn’t change anything.
+
+  # none → No schema management.
