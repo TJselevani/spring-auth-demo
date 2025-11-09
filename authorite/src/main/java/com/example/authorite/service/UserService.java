@@ -17,6 +17,18 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    public UserResponseDto getUserById(Long id) {
+        var user = userRepository.findById(id)
+                .orElseThrow(() -> new ApiException("User not found"));
+        return UserResponseDto.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .role(user.getRole())
+                .active(user.isActive())
+                .department(user.getDepartment())
+                .build();
+    }
+
     public UserResponseDto getOneUser(String username) {
         var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ApiException("User not found"));
@@ -24,6 +36,8 @@ public class UserService implements UserDetailsService {
                 .id(user.getId())
                 .username(user.getUsername())
                 .role(user.getRole())
+                .active(user.isActive())
+                .department(user.getDepartment())
                 .build();
     }
 
@@ -35,10 +49,25 @@ public class UserService implements UserDetailsService {
                         .id(user.getId())
                         .username(user.getUsername())
                         .role(user.getRole())
+                        .active(user.isActive())
+                        .department(user.getDepartment())
                         .build())
                 .toList();
     }
 
+    public List<UserResponseDto> getUsersByDepartment(String department) {
+        var users = userRepository.findByDepartment(department);
+
+        return users.stream()
+                .map(user -> UserResponseDto.builder()
+                        .id(user.getId())
+                        .username(user.getUsername())
+                        .role(user.getRole())
+                        .active(user.isActive())
+                        .department(user.getDepartment())
+                        .build())
+                .toList();
+    }
 
     public void createUser(UserRequestDto dto, String encodedPassword) {
         if (userRepository.findByUsername(dto.getUsername()).isPresent()) {
@@ -56,6 +85,8 @@ public class UserService implements UserDetailsService {
                 .username(dto.getUsername())
                 .password(encodedPassword)
                 .role(role)
+                .active(dto.isActive())
+                .department(dto.getDepartment())
                 .build();
 
         userRepository.save(user);
