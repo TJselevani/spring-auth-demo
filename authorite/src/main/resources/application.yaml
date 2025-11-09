@@ -14,7 +14,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update   # options: create, create-drop, update, validate, none
-    show-sql: true       # logs SQL queries in console
+    show-sql: false       # logs SQL queries in console
     properties:
       hibernate:
         format_sql: true

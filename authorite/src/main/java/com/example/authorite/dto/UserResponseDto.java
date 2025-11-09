@@ -1,5 +1,6 @@
 package com.example.authorite.dto;
 
+import com.example.authorite.config.Role;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,5 +9,5 @@ import lombok.Data;
 public class UserResponseDto {
     private Long id;
     private String username;
-    private String role;
+    private Role role;
 }

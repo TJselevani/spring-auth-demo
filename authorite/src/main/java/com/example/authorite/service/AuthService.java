@@ -40,7 +40,7 @@ public class AuthService {
         var user = userRepository.findByUsername(dto.getUsername())
                 .orElseThrow(() -> new ApiException("User not found"));
 
-        String token = jwtUtil.generateToken(user.getUsername());
+        String token = jwtUtil.generateToken(user);
 
         return LoginResponseDto.builder()
                 .token(token)
